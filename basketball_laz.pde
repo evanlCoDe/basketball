@@ -1,4 +1,3 @@
-
 PImage ground;
 Ball ball ;
 
@@ -68,19 +67,10 @@ void draw() {
                 
                 break;
         }
+        println("z--->"+myPos[2]);
     }
 
     if( ball != null ){
         ball.fly(groundDepth) ;
         ball.show() ;
     }
-}
-
-
-void mouseClicked() {
-
-   // ball = new Ball( myPos[0] , myPos[1] , myPos[2]-130 ) ;
-    //ball = new Ball( 600 , myPos[1] , -300 ) ;
-    //ball = new Ball( ring[0] , ring[1] , ring[2] ) ;
-
-}

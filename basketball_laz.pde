@@ -1,4 +1,5 @@
 PImage ground;
+PImage[] loadMan = new PImage[72];
 RingBoard ringBoard ;
 Ball ball ;
 Scoreboard sb ;
@@ -16,6 +17,14 @@ void setup() {
 
   ground = loadImage("gsw.png");
   PImage RBI = loadImage("ring_board.jpg");
+  for(int i = 0;i<loadMan.length;i++){
+    String t = ""+i;
+    if(i<10){
+      t="0"+t;  
+    }
+    
+    loadMan[i] = loadImage("img1/frame_"+t+"_delay-0.03s.png");
+  }
   ringBoard = new RingBoard(RBI);
   // ------
   // free throw line : 15ft --> 268
@@ -73,7 +82,7 @@ void draw() {
       ball.update( myPos[0], myPos[1], myPos[2], mxDiff*r, eyeTarget[2]-myPos[2] ) ;
     }
     ball.show();
-    if(ball.checkHit(ring)==true){
+    if(ball.addScore==false && ball.checkHit(ring)==true){
       sb.addScore(2);
     }
   }
@@ -102,7 +111,9 @@ void draw() {
       break;
     }
     //println("z--->"+myPos[2]);
+    
   }
+  showStartBoard();
 }
 
 void groundImage() {
@@ -136,3 +147,56 @@ void mouseReleased() {
     ball.fly=true;
   }
 }
+//---------
+void showStartBoard() {
+    // draw Message Board
+    rectMode(CENTER);
+    fill(44, 48, 56 , 240);
+    rect(width / 2 , height / 2 ,width / 2 , height * 4 / 5);
+    
+    pushMatrix();
+    translate(0,0,10);
+    
+    // logo balls
+    int cx = 400;
+    int cy = 250;
+    for (int i = 0; i < 10; ++i) {
+        fill(150,150,150, 100 + i * 5);
+        stroke(255);
+        circle(cx,cy ,50 + i * 5); 
+        cx += 20;
+        cy += 2 * i;   
+    }
+
+    
+    // loading 
+    //if (loadingAnimation) {
+    //    // loading man
+        
+        image(loadMan[(frameCount / 2) % 72] , 350,400);
+        
+        
+    //} else{        
+    //    // button
+        int rectx = width / 2;
+        int bty = height / 2 + 200;
+        
+        rect(rectx , bty , 300, 100,50);
+        // check mouse over
+        //if (abs(mouseX - rectx) < 300 / 2) {
+        //    if (abs(mouseY - recty) < 100 / 2) {
+        //        //println("mouse over !!" + frameCount);
+        //        //println("dx " + abs(mouseX - rectx));
+        //        //println("dy " + abs(mouseY - recty));
+        //        if (mousePressed == true && timer == -9) {
+        //            timer = -8; // start to count down
+        //        }
+        //    }
+        //}        
+        // triangle
+        fill(255);
+        int tx = width / 2 - 30;
+        int ty = bty - 30;
+        triangle(tx , ty , tx + 50 , ty + 30 , tx , ty + 60);
+        popMatrix();
+    }
